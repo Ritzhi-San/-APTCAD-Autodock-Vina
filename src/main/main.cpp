@@ -32,6 +32,12 @@
 #include "scoring_function.h" // Calculate and score interaction energies between molecules
 #include <unordered_map> // Speed up searches, allowing users to quickly find and access values associated with specific keys
 #include <fstream>
+#include <boost/date_time/posix_time/posix_time.hpp> 
+#include <cstdlib> // for exit function
+#include <windows.h> //for Sleep() and Beep()
+#include <thread>
+#include <chrono>
+#include <atomic>  // Include atomic header for atomic variables
 
 // Define a struct for custom exception
 struct usage_error : public std::runtime_error {
@@ -76,6 +82,60 @@ void check_occurrence(boost::program_options::variables_map& vm, boost::program_
 		if(!vm.count(str))
 			std::cerr << "Required parameter --" << str << " is missing!\n";
 	}
+}
+
+std::atomic<bool> stopTimer(false);  // Atomic flag to stop the timer
+
+// Timer function
+void timer(int h, int m, int s)
+{
+	for (;;)
+	{
+		// Check the stopTimer flag
+		if (stopTimer)
+		{
+			return;
+		}
+
+		// std::cout << '\r' << h << ":" << m << ":" << s; // Move the cursor to the beginning of the line using '\r'
+		Sleep(1000);
+		s--;
+
+		// Check if all time components have reached zero to stop the timer
+		if (h == 0 && m == 0 && s == 0)
+		{
+			std::cout << "\nTarget time has been exceeded, and the program is terminated.\n";
+
+			// Create and open the kill.txt file
+			std::ofstream killFile("kill.txt");
+
+			if (killFile.is_open()) {
+				// Write the same content
+				killFile << "Target time has been exceeded, and the program is terminated.\n";
+				killFile.close();
+			}
+			else {
+				std::cerr << "Unable to create/overwrite kill.txt file.\n";
+			}
+
+			exit(0);
+		}
+
+		// Check if seconds are zero and minutes are also zero, reset minutes to 60 and decrement hours
+		if (s == 0 && m == 0)
+		{
+			m = 60;
+			h--;
+		}
+
+		// Check if seconds are zero, reset seconds to 60 and decrement minutes
+		if (s == 0)
+		{
+			s = 60;
+			m--;
+		}
+	}
+	// std::cout << '\n'; // Print a new line to maintain formatting clarity
 }
 
 int main(int argc, char* argv[]) {
@@ -134,6 +194,7 @@ Thank you!\n";
 		std::vector<std::string> batch_ligand_names;
 		std::string maps;
 		std::string sf_name = "vina";
+		double target_time;
 		double center_x;
 		double center_y;
 		double center_z;
@@ -197,6 +258,7 @@ Thank you!\n";
 			("ligand", value< std::vector<std::string> >(&ligand_names)->multitoken(), "ligand (PDBQT)")
 			("batch", value< std::vector<std::string> >(&batch_ligand_names)->multitoken(), "batch ligand (PDBQT)")
 			("scoring", value<std::string>(&sf_name)->default_value(sf_name), "scoring function (ad4, vina or vinardo)")
+			("timer", value<double>(&target_time), "optionally, set limit time in minutes")
 		;
 		//options_description search_area("Search area (required, except with --score_only)");
 		options_description search_area("Search space (required)");
@@ -482,29 +544,73 @@ Thank you!\n";
 				v.write_pose(out_name);
 				v.show_score(energies);
 			} else {
-				v.global_search(exhaustiveness, num_modes, min_rmsd, max_evals);
-				v.write_poses(out_name, num_modes, energy_range);
+				if (vm.count("timer")) {
+					int totalSeconds = static_cast<int>(target_time * 60.0);
+					int h = totalSeconds / 3600;
+					int m = (totalSeconds % 3600) / 60;
+					int s = totalSeconds % 60;
 
-				// Get the outputString value
-				std::string outputString = v.getOutputString();
+					// Create a thread to execute the countdown
+					std::thread timerThread(timer, h, m, s);
 
-				if (vm.count("log")) {
-					// Cuz "tee" will write file and output standard output at the same time, so changed
-					// tee log;  // Create a tee object, named as log
-					// log.init(log_name);  // Initialize the tee with the specified file name
-					// Use the tee object to write data to the file and standard output
-					// log << outputString;
-					std::ofstream outputFile(log_name);
+					std::thread globalSearchAndWritePosesThread([&] {
+						v.global_search(exhaustiveness, num_modes, min_rmsd, max_evals);
+						v.write_poses(out_name, num_modes, energy_range);
 
-					if (outputFile.is_open()) {
-						// Write the content of outputString to the file
-						outputFile << outputString;
+						// Get the outputString value
+						std::string outputString = v.getOutputString();
 
-						// Close the file when done
-						outputFile.close();
-					}
-					else {
-						std::cerr << "Unable to open the file: " << log_name << std::endl;
+						if (vm.count("log")) {
+							// Cuz "tee" will write file and output standard output at the same time, so changed
+							// tee log;  // Create a tee object, named as log
+							// log.init(log_name);  // Initialize the tee with the specified file name
+							// Use the tee object to write data to the file and standard output
+							// log << outputString;
+							std::ofstream outputFile(log_name);
+
+							if (outputFile.is_open()) {
+								// Write the content of outputString to the file
+								outputFile << outputString;
+
+								// Close the file when done
+								outputFile.close();
+							}
+							else {
+								std::cerr << "Unable to open the file: " << log_name << std::endl;
+							}
+						}
+
+						// Set the stopTimer flag to true when the thread completes successfully
+						stopTimer = true;
+					});
+
+					timerThread.join();
+					globalSearchAndWritePosesThread.join();
+				} else {
+					v.global_search(exhaustiveness, num_modes, min_rmsd, max_evals);
+					v.write_poses(out_name, num_modes, energy_range);
+
+					// Get the outputString value
+					std::string outputString = v.getOutputString();
+
+					if (vm.count("log")) {
+						// Cuz "tee" will write file and output standard output at the same time, so changed
+						// tee log;  // Create a tee object, named as log
+						// log.init(log_name);  // Initialize the tee with the specified file name
+						// Use the tee object to write data to the file and standard output
+						// log << outputString;
+						std::ofstream outputFile(log_name);
+
+						if (outputFile.is_open()) {
+							// Write the content of outputString to the file
+							outputFile << outputString;
+
+							// Close the file when done
+							outputFile.close();
+						}
+						else {
+							std::cerr << "Unable to open the file: " << log_name << std::endl;
+						}
 					}
 				}
 			}

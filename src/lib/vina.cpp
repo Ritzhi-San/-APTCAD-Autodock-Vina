@@ -24,7 +24,9 @@
 #include "scoring_function.h"
 #include "precalculate.h"
 #include <sstream>
+#include <boost/date_time/posix_time/posix_time.hpp> // for time in microseconds
 
+using namespace boost::posix_time;
 
 void Vina::cite() {
 	const std::string cite_message = "\
@@ -888,6 +890,9 @@ void Vina::global_search(const int exhaustiveness, const int n_poses, const doub
 	std::stringstream sstm;
 	rng generator(static_cast<rng::result_type>(m_seed));
 
+	// Record the used search time
+	ptime time_start(microsec_clock::local_time());
+
 	// Setup Monte-Carlo search
 	parallel_mc parallelmc;
 	sz heuristic = m_model.num_movable_atoms() + 10 * m_model.get_size().num_degrees_of_freedom();
@@ -913,6 +918,13 @@ void Vina::global_search(const int exhaustiveness, const int n_poses, const doub
 
 	// Docking post-processing and rescoring
 	poses = remove_redundant(poses, min_rmsd);
+
+	// Display the used search time
+	ptime time_end(microsec_clock::local_time());
+	time_duration duration(time_end - time_start);
+
+	printf("\nSearching finished in %.3lf seconds\n", (duration.total_milliseconds() / 1000.0));
+
 
 	if (!poses.empty()) {
 		// For the Vina scoring function, we take the intramolecular energy from the best pose
