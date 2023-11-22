@@ -1,32 +1,18 @@
 ﻿  main.cpp
-  ad4cache.cpp
-  cache.cpp
-  non_cache.cpp
-  conf_independent.cpp
-  coords.cpp
-  grid.cpp
-  szv_grid.cpp
-  model.cpp
-  monte_carlo.cpp
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\monte_carlo.cpp(55,35): warning C4018: '>': signed/unsigned mismatch
-  mutate.cpp
-  parallel_mc.cpp
-C:\Users\lyt\Downloads\boost_1_77_0\boost\progress.hpp(23): message : This header is deprecated. Use the facilities in <boost/timer/timer.hpp> or <boost/timer/progress_display.hpp> instead.
-C:\Users\lyt\Downloads\boost_1_77_0\boost\timer.hpp(21): message : This header is deprecated. Use the facilities in <boost/timer/timer.hpp> instead.
-  parse_pdbqt.cpp
-  quasi_newton.cpp
-  quaternion.cpp
-  random.cpp
-  utils.cpp
-  vina.cpp
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1050,26): warning C4101: 'm_sf_choice': unreferenced local variable
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1048,7): warning C4101: 'm_ligand_initialized': unreferenced local variable
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1047,7): warning C4101: 'm_receptor_initialized': unreferenced local variable
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1064,6): warning C4101: 'm_verbosity': unreferenced local variable
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1062,6): warning C4101: 'm_seed': unreferenced local variable
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1061,6): warning C4101: 'm_cpu': unreferenced local variable
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\vina.cpp(1059,7): warning C4101: 'm_map_initialized': unreferenced local variable
-  Generating Code...
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\cache.cpp(54): warning C4715: 'convert_XS_to_string': not all control paths return a value
-C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\src\lib\ad4cache.cpp(55): warning C4715: 'get_adtype_str': not all control paths return a value
-  vina.vcxproj -> C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\AutoDock-Vina-1.2.5\build\windows\debug\vina.exe
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u9884' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u4F30' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u4EE3' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u7801' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u8FD0' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u884C' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u65F6' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,18): warning C4566: character represented by universal-character-name '\u95F4' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,71): warning C4566: character represented by universal-character-name '\u5FAE' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(550,71): warning C4566: character represented by universal-character-name '\u79D2' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(551,18): warning C4566: character represented by universal-character-name '\u5F00' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(551,18): warning C4566: character represented by universal-character-name '\u59CB' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(551,18): warning C4566: character represented by universal-character-name '\u6267' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(551,18): warning C4566: character represented by universal-character-name '\u884C' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(551,18): warning C4566: character represented by universal-character-name '\u4EE3' cannot be represented in the current code page (1252)
+C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\src\main\main.cpp(551,18): warning C4566: character represented by universal-character-name '\u7801' cannot be represented in the current code page (1252)
+  vina.vcxproj -> C:\Users\lyt\Downloads\AutoDock-Vina-1.2.5\-APTCAD-Autodock-Vina-main\build\windows\debug\vina.exe
